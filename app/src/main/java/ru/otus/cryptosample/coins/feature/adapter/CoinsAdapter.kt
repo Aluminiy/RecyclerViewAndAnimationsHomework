@@ -1,6 +1,9 @@
 package ru.otus.cryptosample.coins.feature.adapter
 
+import android.content.Context
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +32,7 @@ class CoinsAdapter : ListAdapter<CoinsAdapterItem, RecyclerView.ViewHolder>(Coin
                     adapterItems.add(CoinsAdapterItem.CoinItem(coin))
                 }
             } else {
-                adapterItems.add(CoinsAdapterItem.Carousel(category.coins))
+                adapterItems.add(CoinsAdapterItem.Carousel(CarouselCategory.CoinsCategory, category.coins))
             }
         }
 
@@ -45,6 +48,8 @@ class CoinsAdapter : ListAdapter<CoinsAdapterItem, RecyclerView.ViewHolder>(Coin
             is CoinsAdapterItem.Carousel -> VIEW_TYPE_CAROUSEL
         }
     }
+
+    fun View.dpToPx(dp: Int): Int = (dp * resources.displayMetrics.density).toInt()
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -63,7 +68,7 @@ class CoinsAdapter : ListAdapter<CoinsAdapterItem, RecyclerView.ViewHolder>(Coin
                         RecyclerView.LayoutParams.WRAP_CONTENT
                     )
                 val screenWidth = parent.resources.displayMetrics.widthPixels
-                params.width = screenWidth / 2 - 16
+                params.width = screenWidth / 2 - parent.dpToPx(8)
 
                 binding.root.layoutParams = params
                 CoinViewHolder(binding)

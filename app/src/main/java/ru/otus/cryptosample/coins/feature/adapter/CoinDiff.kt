@@ -1,6 +1,9 @@
 package ru.otus.cryptosample.coins.feature.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import ru.otus.cryptosample.coins.feature.CoinState
+
+data class Carousel(val categoryId: String, val coins: List<CoinState>)
 
 object CoinDiff : DiffUtil.ItemCallback<CoinsAdapterItem>() {
 
@@ -16,7 +19,7 @@ object CoinDiff : DiffUtil.ItemCallback<CoinsAdapterItem>() {
 
             oldItem is CoinsAdapterItem.Carousel &&
                     newItem is CoinsAdapterItem.Carousel ->
-                oldItem.coins.firstOrNull()?.id == newItem.coins.firstOrNull()?.id
+                oldItem.categoryId == newItem.categoryId
 
             else -> false
         }

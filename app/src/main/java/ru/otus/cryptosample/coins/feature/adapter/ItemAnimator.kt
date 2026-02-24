@@ -1,5 +1,7 @@
 package ru.otus.cryptosample.coins.feature.adapter
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +44,25 @@ class ItemAnimator : DefaultItemAnimator() {
 
         animator.start()
         return true
+    }
+
+    override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
+        holder.itemView.animate()
+            .alpha(0f)
+            .scaleX(0f)
+            .scaleY(0f)
+            .setDuration(300)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    holder.itemView.alpha = 1f
+                    holder.itemView.scaleX = 1f
+                    holder.itemView.scaleY = 1f
+                    dispatchRemoveFinished(holder)
+                }
+            })
+            .start()
+
+        return false
     }
 
     override fun runPendingAnimations() {
